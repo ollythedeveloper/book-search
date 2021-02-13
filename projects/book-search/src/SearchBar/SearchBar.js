@@ -7,7 +7,7 @@ class SearchBar extends Component {
         return (
             <div className="searchbar">
                 <h1>Google Book Search</h1>
-                <form className="addsearchterm__form">
+                <form className="addsearchterm__form" onSubmit={e => this.props.clickSubmit(e)}>
                     <label htmlFor="search">Search:</label>
                     <input
                         type="text"
@@ -16,8 +16,7 @@ class SearchBar extends Component {
                         value={this.props.searchTerm}
                         onChange={e => this.props.handleUpdate(e.target.value)} />
                     <button 
-                        type="submit" 
-                        onSubmit={e => this.props.clickSubmit(e)}>Search</button>
+                        type="submit">Search</button>
 
                 </form>
             </div>

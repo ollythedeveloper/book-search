@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
-import Filters from './Filters/Filters'
-import SearchBar from './SearchBar/SearchBar'
+import Filters from './Filters/Filters';
+import SearchBar from './SearchBar/SearchBar';
+import BookList from './BookList/BookList';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: 'flowers',
+      searchTerm: '',
       printType: 'All',
       filter: 'full',
+      books: []
     }
   }
 
-  updateSearchTerm(newSearch) {
+  setSearchTerm(searchTerm) {
     this.setState({
-      searchTerm: newSearch
+      searchTerm
     })
 
   }
@@ -27,18 +29,24 @@ class App extends Component {
     })
   }
 
-  setFilter(filter){
+  setFilter(filter) {
     this.setState({
       filter
     })
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  setBooks(books) {
+    this.setState({
+      books
+    })
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.handleSearch();
+  }
 
-  componentDidMount(){
+  handleSearch() {
     const baseUrl = 'https://www.googleapis.com/books/v1/volumes?';
     const options = {
       searchTerm: 'q=' + this.state.searchTerm,
@@ -49,19 +57,20 @@ class App extends Component {
     const fullUrl = baseUrl + options.searchTerm + options.printType + options.filter + options.API
     console.log(fullUrl)
     fetch(fullUrl)
-    .then(res => {
-      if(!res.ok) {
-        throw new Error('Something went wrong, please try again later.');
-      }
-      return res;
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Something went wrong, please try again later.');
+        }
+        return res;
+      })
+      .then(res => res.json())
+      .then(data => {
+        // console.log(data)
+        this.setBooks(data)
+      })
   }
 
-  
+
 
 
   render() {
@@ -69,14 +78,15 @@ class App extends Component {
       <main className="App">
         <SearchBar
           searchTerm={this.state.searchTerm}
-          handleUpdate={newSearch => this.updateSearchTerm(newSearch)}
+          handleUpdate={searchTerm => this.setSearchTerm(searchTerm)}
           clickSubmit={e => this.handleSubmit(e)} />
         <Filters
           printType={this.state.printType}
           handlePrint={print => this.setPrint(print)}
           filter={this.state.filter}
           handleFilter={filter => this.setFilter(filter)} />
-        {/* { bookList } */}
+        <BookList
+          books={this.state.books} />
       </main>
     );
   }
