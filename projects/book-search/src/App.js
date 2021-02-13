@@ -27,6 +27,12 @@ class App extends Component {
     })
   }
 
+  setFilter(filter){
+    this.setState({
+      filter
+    })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
   }
@@ -68,7 +74,8 @@ class App extends Component {
         <Filters
           printType={this.state.printType}
           handlePrint={print => this.setPrint(print)}
-          filter={this.state.filter} />
+          filter={this.state.filter}
+          handleFilter={filter => this.setFilter(filter)} />
         {/* { bookList } */}
       </main>
     );

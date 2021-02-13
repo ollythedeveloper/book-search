@@ -9,7 +9,9 @@ class Filters extends Component {
                 <PrintSelector
                     printType={this.props.printType}
                     handlePrint={this.props.handlePrint} />
-                <BookTypeSelector />
+                <BookTypeSelector 
+                    filter={this.props.filter}
+                    handleFilter={this.props.handleFilter}/>
             </div>
         )
     }

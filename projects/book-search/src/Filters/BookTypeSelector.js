@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 class BookTypeSelector extends Component {
+    changeFilter(value){
+        this.props.handleFilter(value)
+    }
     render() {
         return (
             <div className="booktype_selector">
@@ -8,7 +11,8 @@ class BookTypeSelector extends Component {
                     <label htmlFor="booktype">Book Type:</label>
                     <select
                         id="booktype"
-                        name="booktype">
+                        name="booktype"
+                        onChange={e => this.changeFilter(e.target.value)}>
                         <option value="full">Full</option>
                         <option value="partial">Partial</option>
                         <option value="free-ebooks">Free Ebooks</option>
