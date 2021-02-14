@@ -3,6 +3,7 @@ import './App.css';
 import Filters from './Filters/Filters';
 import SearchBar from './SearchBar/SearchBar';
 import BookList from './BookList/BookList';
+import { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react-dom';
 
 
 class App extends Component {
@@ -35,12 +36,6 @@ class App extends Component {
     })
   }
 
-  setBooks(books) {
-    this.setState({
-      books
-    })
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     this.handleSearch();
@@ -65,9 +60,17 @@ class App extends Component {
       })
       .then(res => res.json())
       .then(data => {
-        // console.log(data)
-        this.setBooks(data)
+        this.setState({
+          books: data, 
+          error: null
+        });
+        console.log(this.state.books)
       })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
   }
 
 
@@ -86,7 +89,7 @@ class App extends Component {
           filter={this.state.filter}
           handleFilter={filter => this.setFilter(filter)} />
         <BookList
-          books={this.state.books} />
+          books={this.state.books.items} />
       </main>
     );
   }
